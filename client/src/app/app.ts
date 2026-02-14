@@ -1,11 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit, signal, Signal } from '@angular/core';
 import { lastValueFrom, throwError } from 'rxjs';
+import { Nav } from "../layout/nav/nav";
+import { AccountService } from '../core/services/account-service';
+import { Home } from "../features/home/home";
+import { User } from '../types/user';
+
+
 
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [Nav, Home],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -15,7 +21,7 @@ export class App implements OnInit {
   //implemts onInit toinitialize the component 
   private http = inject(HttpClient)
   protected title = 'Dating app';
-  protected members = signal<any>([]); // i use signal bexause when i install angular i install  provideZonelessChangeDetection(),
+  protected members = signal<User[]>([]); // i use signal bexause when i install angular i install  provideZonelessChangeDetection(),
   //help me that any change do will reflect to the html 
 
   //  async ngOnInit() {
@@ -31,18 +37,27 @@ export class App implements OnInit {
   // when i use async and return a promise
   
   // }
+  private accountService= inject(AccountService)
 
   async ngOnInit(){
-  this.members.set(await this.GetMembers())
+  this.members.set(await this.getMembers())
+  this.setCurrentUser();
+  }
+
+  setCurrentUser(){
+    const userString = localStorage.getItem('user')
+    if(!userString) return; // return nothing 
+    const user = JSON.parse(userString);
+    this.accountService.currentUser.set(user);
   }
 
 
 
- async  GetMembers(){
+ async  getMembers(){
   //instead of returning an observable it return a promise
 
   try{
-     return  lastValueFrom(this.http.get('https://localhost:5001/api/members'));
+     return  lastValueFrom(this.http.get<User[]>('https://localhost:5001/api/members'));
   }
    catch(error)
    {
