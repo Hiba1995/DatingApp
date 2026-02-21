@@ -24,7 +24,7 @@ export class AccountService {
     )
   }
 
-  logout(creds: LoginCreds){
+  logout(creds: any){
     localStorage.removeItem('user');
     this.currentUser.set(null);
   }
