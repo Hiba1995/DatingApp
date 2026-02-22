@@ -12,6 +12,7 @@
             </a>
 
         </div>
+           
 
         <nav class=" flex gap-3 my-2 uppercase text-lg text-white">
             @if(accountService.currentUser()){
@@ -19,6 +20,8 @@
             <a routerLink="/lists" routerLinkActive="text-accent">Lists</a>
             <a routerLink="/messages" routerLinkActive="text-accent">Messages</a>
             }
+              <a routerLink="/errors" routerLinkActive="text-accent">Errors</a>
+         
 
 
         </nav>
