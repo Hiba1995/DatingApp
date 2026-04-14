@@ -12,7 +12,7 @@ import { Router, RouterOutlet } from '@angular/router';
 export class App  {
  
   //inject the http client 
-  //implemts onInit toinitialize the component 
+  //implemts onInit to initialize the component 
   // private http = inject(HttpClient);
   protected router = inject(Router);
   // protected title = 'Dating app';
